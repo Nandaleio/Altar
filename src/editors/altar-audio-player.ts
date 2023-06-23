@@ -1,23 +1,36 @@
-import { html } from 'lit';
+import { css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { AltarPlayer } from './altar-player';
+import { AltarMediaPlayer } from './player/altar-media-player';
+import { TimeControl } from './controls/time-control';
+import { AudioControl } from './controls/audio-control';
 
+import './controls/time-control';
+import './controls/audio-control';
+import './comments/altar-comment-trigger';
 @customElement('altar-audio-player')
-export class AltarAudioPlayer extends AltarPlayer<AudioComment> {
+export class AltarAudioPlayer extends AltarMediaPlayer<TimeControl | AudioControl> {
 
+  override render() {
+      return html`
+      <audio id="altar-player-element"></audio>
+      <div class="controls">
+        <altar-comment-trigger></altar-comment-trigger>
+        <altar-time-control class="altar-control-element"></altar-time-control>
+        <altar-audio-control class="altar-control-element"></altar-audio-control>
+      </div>
+    `;
+  }
 
-    override render() {
-        return html`<audio controls id="altar-player-element"></audio>`;
+  static override styles = css`
+    .controls {
+        display: flex;
+        align-items: center;
     }
-
-}
-
-export interface AudioComment {
-
+    `
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'altar-audio-editor': AltarAudioPlayer;
+    'altar-audio-player': AltarAudioPlayer;
   }
 }

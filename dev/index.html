@@ -4,30 +4,24 @@
   <head>
     <meta charset="utf-8" />
     <title>Altar Demo</title>
-    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../node_modules/lit/polyfill-support.js"></script>
     <script type="module" src="../build/altar-element.js"></script>
-    <!-- <script type="module" src="../../canard.jpg"></script> -->
     <style>
-      * {
-        font-family: sans-serif !important;
-      }
-      .main-content {
-        width: 350px;
-        height: 350px;
-        background-color: white;
+      @font-face {
+        font-family: 'Material Symbols Outlined';
+        font-style: normal;
+        src: url('../src/assets/icons/MaterialSymbolsRounded.woff2') format('woff');
       }
       body {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: grey;
+        font-family: Arial, sans-serif;
       }
     </style>
   </head>
   <body>
     <div class="main-content">
-      <altar-element .inputFile="../../canard.jpg">
+      <altar-element>
       </altar-element>
     </div>
   </body>

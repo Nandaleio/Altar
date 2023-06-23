@@ -1,30 +1,33 @@
-import {LitElement, PropertyValueMap, TemplateResult, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {LitElement, TemplateResult, css, html} from 'lit';
+import {customElement, property, query} from 'lit/decorators.js';
 
 import './altar-file-selector';
-import './editors/altar-text-player';
-import './editors/altar-video-player';
-import './editors/altar-image-player';
-import './editors/altar-audio-player';
+import './editors/comments/altar-comment-editor';
+import { AltarCommentEditor } from './editors/comments/altar-comment-editor';
 
 @customElement('altar-element')
 export class AltarElement extends LitElement {
 
-    
-    @property({type: String})
-    inputFile!: string;
-
     @property({type: Object})
     file!: File;
 
-    protected override firstUpdated(_changedProperties: PropertyValueMap<this>): void {
-        if(this.inputFile) {
-
-        }
-    }
+    @query("altar-comment-editor")
+    commentEditor!: AltarCommentEditor
 
     fileSelected(newFile: CustomEvent<File>) {
         this.file = newFile.detail;
+    }
+
+    override connectedCallback(): void {
+        super.connectedCallback();
+        this.addEventListener('openCommentBox', (ev: Event) => {
+            this.commentEditor.showCommentAtElement((ev as CustomEvent).detail as HTMLElement)
+        });
+
+        this.addEventListener('SaveComment', (ev: Event) => {
+            console.log('SaveComment', (ev as CustomEvent).detail)
+        });
+        
     }
 
     static override styles = css`
@@ -44,15 +47,16 @@ export class AltarElement extends LitElement {
                 ? html` 
                     ${this.getEditor()} 
                 `
-                : html`<altar-file-selector @file-selected="${this.fileSelected}" ></altar-file-selector>`
-            }
+                : html`<altar-file-selector @file-selected="${this.fileSelected}" ></altar-file-selector>`}
+
+                <altar-comment-editor></altar-comment-editor>
         `;
     }
 
     getEditor(): TemplateResult {
-        console.log(this.file.type);
         switch(this.file.type){
             case "text/plain":
+                import('./editors/altar-text-player');
                 return html`<altar-text-player .file="${this.file}"></altar-text-player>`;
             
             case "image/jpeg":
@@ -60,6 +64,7 @@ export class AltarElement extends LitElement {
             case "image/gif":
             case "image/bmp":
             case "image/x-ms-bmp":
+                import('./editors/altar-image-player');
                 return html`<altar-image-player .file="${this.file}"></altar-image-player>`;
 
             case "application/pdf":
@@ -69,10 +74,13 @@ export class AltarElement extends LitElement {
             case "video/webm":
             case "video/x-m4v":
             case "video/quicktime":
+            case "video/ogg":
+                import('./editors/altar-video-player');
                 return html`<altar-video-player .file="${this.file}"></altar-video-player>`;
 
             case "audio/mpeg":
             case "audio/x-wav":
+                import('./editors/altar-audio-player');
                 return html`<altar-audio-player .file="${this.file}"></altar-audio-player>`;
 
             default: 

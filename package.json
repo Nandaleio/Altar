@@ -41,8 +41,8 @@
     "altar"
   ],
   "author": "Nandaleio",
-  "license": "BSD-3-Clause",
   "dependencies": {
+    "@floating-ui/dom": "^1.4.2",
     "@material/web": "^1.0.0-pre.10",
     "lit": "^2.2.4"
   },

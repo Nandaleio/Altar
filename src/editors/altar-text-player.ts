@@ -1,9 +1,9 @@
 import { PropertyValueMap, html} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
-import { AltarPlayer } from './altar-player';
+import { AltarPlayer } from './player/altar-player';
 
 @customElement('altar-text-player')
-export class AltarTextEditor extends AltarPlayer<TextComment> {
+export class AltarTextPlayer extends AltarPlayer<null, null> {
 
     @state()
     fileContent!: string | ArrayBuffer | undefined | null
@@ -27,12 +27,8 @@ export class AltarTextEditor extends AltarPlayer<TextComment> {
 
 }
 
-export interface TextComment {
-
-}
-
 declare global {
   interface HTMLElementTagNameMap {
-    'altar-text-editor': AltarTextEditor;
+    'altar-text-player': AltarTextPlayer;
   }
 }
