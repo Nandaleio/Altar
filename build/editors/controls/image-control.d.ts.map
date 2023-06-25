@@ -1,1 +1,0 @@
-{"version":3,"file":"image-control.d.ts","sourceRoot":"","sources":["../../../src/editors/controls/image-control.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,YAAY,EAAE,MAAM,iBAAiB,CAAC;AAG/C,qBACa,YAAa,SAAQ,YAAY,CAAC,iBAAiB,CAAC;cAE1C,iBAAiB,CAAC,EAAE,EAAE,iBAAiB,GAAG,IAAI;IAIxD,MAAM;CAGlB;AAED,OAAO,CAAC,MAAM,CAAC;IACX,UAAU,qBAAqB;QAC7B,qBAAqB,EAAE,YAAY,CAAC;KACrC;CACF"}
