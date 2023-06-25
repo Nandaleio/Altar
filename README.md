@@ -1,6 +1,6 @@
 # Altar
 
-Commenting tool for audio / image / video / (3d object ?)
+Commenting tool for audio / image / video / 3d object
 
 ## RoadMap :
 - [x] Timeline comment for audio
@@ -8,7 +8,7 @@ Commenting tool for audio / image / video / (3d object ?)
 - [ ] Timeline + Image comment for Video
 - [ ] WYSIWYG comment text editor
 - [ ] Custom style for comments (for now in the timeline & image markers)
-- [ ] Handle 3D Object (probably need ThreeJS dependency)
+- [ ] Handle 3D Object
 
 ## Custom theme
 
@@ -20,6 +20,7 @@ Here is the list of the css var you can change
 | --altar-timeline-comment-color | Timeline comment marker | `red` |
 
 ## Depencies
+- [ThreeJS](https://threejs.org/)
 - [Material Design](https://github.com/material-components/material-web#readme)
 - [Floating UI](https://floating-ui.com/)
 - [Lit](https://lit.dev/)

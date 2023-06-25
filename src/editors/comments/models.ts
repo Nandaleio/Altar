@@ -1,18 +1,22 @@
-export interface Comment {
-    id: string;
-    comment: string;
-}
- 
-export interface ImageComment extends Comment{
+
+export interface Comment2D {
     x: number;
     y: number;
 }
+export interface Comment3D extends Comment2D {
+    z: number;
+}
 
-export interface TimelineComment extends Comment {
+
+export interface TimeComment {
     time: number;
 }
 
-export interface VideoComment extends ImageComment, TimelineComment {
+export interface VideoComment extends Comment2D, TimeComment {
+    
+}
 
+export interface Video3DComment extends Comment3D, TimeComment {
+    
 }
 

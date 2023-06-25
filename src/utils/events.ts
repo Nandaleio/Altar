@@ -1,4 +1,13 @@
 
+export class AltarEvent<T = any> extends CustomEvent<T> {
+  constructor(eventName: string, data?: T){
+    super(eventName, {
+      bubbles: true,
+      composed: true,
+      detail: data,
+    })
+  }
+}
 
 export function redispatchEvent(element: Element, event: Event) {
     if (event.bubbles && (!element.shadowRoot || event.composed)) {
@@ -10,4 +19,4 @@ export function redispatchEvent(element: Element, event: Event) {
       event.preventDefault();
     }
     return dispatched;
-  }
+}

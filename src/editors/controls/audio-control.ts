@@ -8,7 +8,9 @@ import '@material/web/iconbutton/standard-icon-button.js';
 import '@material/web/icon/icon.js';
 
 @customElement('altar-audio-control')
-export class AudioControl extends AltarControl<HTMLMediaElement> {
+export class AudioControl extends AltarControl<HTMLMediaElement, void> {
+
+    
     
     @query('md-slider')
     slider!: MdSlider;
@@ -63,6 +65,7 @@ export class AudioControl extends AltarControl<HTMLMediaElement> {
                 display: none;
             }
       `]
+      public override getControlInfo(): void {}
 }
 
 declare global {

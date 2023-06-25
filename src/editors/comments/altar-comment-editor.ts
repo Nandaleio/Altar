@@ -1,8 +1,9 @@
 import { computePosition, autoPlacement } from '@floating-ui/dom';
 import {LitElement, html, css} from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
+import { AltarEvent } from '../../utils/events';
 
-import '@material/web/button/outlined-button'
+import '@material/web/button/outlined-button';
 
 @customElement('altar-comment-editor')
 export class AltarCommentEditor extends LitElement {
@@ -25,13 +26,12 @@ export class AltarCommentEditor extends LitElement {
       });
     }
 
-
-    saveComment() {
-      this.dispatchEvent(new CustomEvent('SaveComment', {bubbles: true, composed: true, detail: this.editorBaseElement.value}))
+    public saveComment() {
+      this.dispatchEvent(new AltarEvent('SaveComment', this.editorBaseElement.value))
+      this.editorBaseElement.value = '';
     }
 
-    cancelComment() {
-      this.show = false;
+    public cancelComment() {
       this.editorBaseElement.value = '';
     }
 
@@ -48,7 +48,6 @@ export class AltarCommentEditor extends LitElement {
   }
 
   static override styles = css`
-  
     :host {
       position: absolute;
       z-index: 1;

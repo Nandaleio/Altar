@@ -2,6 +2,7 @@ import {LitElement, html, css} from 'lit';
 import {customElement, query} from 'lit/decorators.js';
 
 import '@material/web/button/outlined-button'
+import { AltarEvent } from './utils/events';
 
 @customElement('altar-file-selector')
 export class AltarFileSelector extends LitElement {
@@ -22,7 +23,7 @@ export class AltarFileSelector extends LitElement {
 
   fileChange(e: any) {
     const file = e.target.files[0];
-    this.dispatchEvent(new CustomEvent<File>('file-selected', {bubbles: true, composed: true, detail: file}))
+    this.dispatchEvent(new AltarEvent<File>('file-selected', file))
   }
 
   override render() {

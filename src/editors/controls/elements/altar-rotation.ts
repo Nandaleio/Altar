@@ -4,6 +4,7 @@ import { MdSlider } from "@material/web/slider/slider";
 
 
 import '@material/web/slider/slider';
+import { AltarEvent } from "../../../utils/events";
 
 @customElement('altar-rotation v')
 export class AltarRotation extends LitElement {
@@ -19,7 +20,7 @@ export class AltarRotation extends LitElement {
 
     private changeTime() {
         const timePercent = this.progressBar.value / 100;
-        this.dispatchEvent(new CustomEvent('change-time', {bubbles: true, composed: true, detail: timePercent}))
+        this.dispatchEvent(new AltarEvent('change-time', timePercent))
     };
 
     override render() {

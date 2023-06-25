@@ -4,6 +4,7 @@ import { MdSlider } from "@material/web/slider/slider";
 
 
 import '@material/web/slider/slider';
+import { AltarEvent } from "../../../utils/events";
 
 @customElement('altar-timeline')
 export class AltarTimeLine extends LitElement {
@@ -19,13 +20,13 @@ export class AltarTimeLine extends LitElement {
 
     private changeTime() {
         const timePercent = this.progressBar.value / 100;
-        this.dispatchEvent(new CustomEvent('change-time', {bubbles: true, composed: true, detail: timePercent}))
+        this.dispatchEvent(new AltarEvent('change-time', timePercent))
     };
 
     override render() {
         return html`
         ${this.comments?.map((_) => html`
-            <div class="timeline-markup" style="left: ${_}%;"></div>
+            <div class="timeline-comment" style="left: ${_}%;"></div>
         `)}
         <md-slider .value=${this.progress * 100} @change=${this.changeTime}></md-slider>
         `;
@@ -40,11 +41,12 @@ export class AltarTimeLine extends LitElement {
             flex-direction: column;
             justify-content: center;
         }
-        .timeline-markup {
+        .timeline-comment {
             z-index: 1;
             width: 3px;
             height: 4px;
-            background-color: red;
+            
+            background-color: var(--altar-timeline-comment-color, red);
             position: absolute;
         }
         `

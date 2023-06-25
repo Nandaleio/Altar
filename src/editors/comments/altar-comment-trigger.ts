@@ -1,21 +1,25 @@
 import {LitElement, html, css} from 'lit';
-import { customElement} from 'lit/decorators.js';
+import { customElement, property} from 'lit/decorators.js';
 
 import '@material/web/iconbutton/standard-icon-button';
 import '@material/web/icon/icon';
 import '@material/web/elevation/elevation';
+import { AltarEvent } from '../../utils/events';
 
 @customElement('altar-comment-trigger')
 export class AltarCommentTrigger extends LitElement {
 
-    private openCommentBox() {
-        this.dispatchEvent(new CustomEvent('openCommentBox', {bubbles: true, composed: true, detail: this}))
+    @property({type:Boolean})
+    isCommentMode!: boolean;
+
+    private toggleCommentMode() {
+        this.dispatchEvent(new AltarEvent('toggle-comment-mode'))
     }
 
     override render() { 
         return html`
-        <md-standard-icon-button @click="${this.openCommentBox}">
-            <md-icon>add_comment</md-icon>
+        <md-standard-icon-button toggle @click="${this.toggleCommentMode}" ?selected=${this.isCommentMode}>
+            <md-icon>comment</md-icon>
         </md-standard-icon-button>
     `;
     }
