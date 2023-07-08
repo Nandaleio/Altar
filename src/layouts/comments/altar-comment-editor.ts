@@ -27,7 +27,8 @@ export class AltarCommentEditor extends LitElement {
     }
 
     public saveComment() {
-      this.dispatchEvent(new AltarEvent('SaveComment', this.editorBaseElement.value))
+      if(!this.editorBaseElement.value) return;
+      this.dispatchEvent(new AltarEvent('save-comment', this.editorBaseElement.value))
       this.editorBaseElement.value = '';
     }
 

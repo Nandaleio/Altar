@@ -2,12 +2,13 @@ import { customElement, property, state } from "lit/decorators.js";
 import { AltarControl } from "./altar-control";
 import { css, html } from "lit";
 
-import './elements/altar-timeline';
+import './altar-timeline';
+import './audio-control';
 import '@material/web/iconbutton/standard-icon-button.js';
 import '@material/web/icon/icon.js';
 import { formatTime } from "../../utils/text-format";
-import { TimeComment } from "../comments/models";
 import { AltarEvent } from "../../utils/events";
+import { TimeComment } from "../../models/comments-models";
 
 @customElement('altar-time-control')
 export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
@@ -19,12 +20,14 @@ export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
     currentProgess: number = 0;
 
     @property({type: Array})
-    commentsPosition: number[] = [];
+    comments: TimeComment[] = [];
 
     private lastCommentEmitted: any;
 
     public override getControlInfo() {
         return {
+            id: "",
+            comment: "",
             time: this.element.currentTime / this.element.duration
         }
     }
@@ -32,7 +35,7 @@ export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
     protected setEventListeners(el: HTMLMediaElement): void {
         el.addEventListener('timeupdate', () => {
             this.requestUpdate();
-            const closest = this.findClosestNumber(this.commentsPosition, this.element.currentTime/this.element.duration);
+            const closest = this.findClosestNumber(this.comments, this.element.currentTime/this.element.duration);
             if(this.lastCommentEmitted !== closest) {
                 //TODO find the whole comment
                 this.dispatchEvent(new AltarEvent('comment-selected', ))
@@ -45,6 +48,7 @@ export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
     }
 
     togglePlay() {
+        console.log(this.element);
         if(this.isPlaying)this.element.pause();
         else this.element.play();
     }
@@ -54,17 +58,17 @@ export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
         this.requestUpdate();
     }
 
-    private findClosestNumber(arr: number[], target: number): number | null {
+    private findClosestNumber(arr: TimeComment[], target: number): TimeComment | null {
         if (!arr || arr.length === 0) {
           return null;
         }
       
         let closestNumber = arr[0];
-        let minDifference = Math.abs(target - closestNumber);
+        let minDifference = Math.abs(target - closestNumber.time);
       
         for (let i = 1; i < arr.length; i++) {
           const currentNumber = arr[i];
-          const currentDifference = Math.abs(target - currentNumber);
+          const currentDifference = Math.abs(target - currentNumber.time);
       
           if (currentDifference < minDifference) {
             closestNumber = currentNumber;
@@ -81,12 +85,14 @@ export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
             <md-icon>${this.isPlaying ? 'pause' : 'play_arrow'}</md-icon>
         </md-standard-icon-button>
 
-        ${formatTime(this.element?.currentTime)} / ${formatTime(this.element?.duration)}
+        ${formatTime(this.element.currentTime)} / ${formatTime(this.element.duration)}
 
         <altar-timeline 
-        .comments=${this.commentsPosition} 
+        .comments=${this.comments} 
         .progress=${this.element?.currentTime / this.element?.duration}
         @change-time=${this.changeCurrentTime}></altar-timeline>
+
+        <altar-audio-control .element=${this.element}></altar-audio-control>
         `;
     }
 
@@ -106,6 +112,7 @@ export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
 
         altar-timeline {
             flex-grow: 1;
+            padding-left: 0.5rem;
         }
         `
     ];

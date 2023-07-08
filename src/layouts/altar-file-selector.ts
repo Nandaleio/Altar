@@ -2,7 +2,7 @@ import {LitElement, html, css} from 'lit';
 import {customElement, query} from 'lit/decorators.js';
 
 import '@material/web/button/outlined-button'
-import { AltarEvent } from './utils/events';
+import { AltarEvent } from '../utils/events';
 
 @customElement('altar-file-selector')
 export class AltarFileSelector extends LitElement {

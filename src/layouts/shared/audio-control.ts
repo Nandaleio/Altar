@@ -10,8 +10,6 @@ import '@material/web/icon/icon.js';
 @customElement('altar-audio-control')
 export class AudioControl extends AltarControl<HTMLMediaElement, void> {
 
-    
-    
     @query('md-slider')
     slider!: MdSlider;
 
@@ -34,7 +32,7 @@ export class AudioControl extends AltarControl<HTMLMediaElement, void> {
         this.element.muted = this.muted;
     }
 
-    override onmouseover = () =>  this.showSlider = true;
+    override onmouseenter = () =>  this.showSlider = true;
     override onmouseleave = () => this.showSlider = false;
 
     override render() {

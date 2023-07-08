@@ -10,9 +10,10 @@ export abstract class AltarControl<T, I> extends LitElement {
     element!: T;
 
     protected abstract setEventListeners(el: T): void;
+    
     public abstract getControlInfo(): I;
 
-    override update(changedProperties: Map<string, unknown>) {
+    override async update(changedProperties: Map<string, unknown>) {
         if (changedProperties.has("element") && this.element) {
           this.setEventListeners(this.element)
         }
