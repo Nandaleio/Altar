@@ -7,20 +7,26 @@ import '@material/web/elevation/elevation';
 import { AltarEvent } from '../../utils/events';
 import { AltarMode } from '../../models/atlar-mode';
 
-@customElement('altar-comment-trigger')
-export class AltarCommentTrigger extends LitElement {
+@customElement('altar-mode-button')
+export class AltarModeButton extends LitElement {
 
-    @property({type:Boolean})
-    isCommentMode!: boolean;
+    @property({type: Object})
+    currentMode!: AltarMode;
+
+    @property({type: Boolean})
+    isCurrentMode! :boolean;
+
+    @property({type: String})
+    icon!: string;
 
     private toggleCommentMode() {
-        this.dispatchEvent(new AltarEvent('toggle-mode', !this.isCommentMode ? AltarMode.COMMENT : null))
+        this.dispatchEvent(new AltarEvent('toggle-mode', this.currentMode))
     }
 
     override render() { 
         return html`
-        <md-standard-icon-button toggle @click="${this.toggleCommentMode}" ?selected=${this.isCommentMode}>
-            <md-icon>comment</md-icon>
+        <md-standard-icon-button toggle @click="${this.toggleCommentMode}" ?selected=${this.isCurrentMode}>
+            <md-icon>${this.icon}</md-icon>
         </md-standard-icon-button>
     `;
     }
@@ -35,6 +41,6 @@ export class AltarCommentTrigger extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'altar-comment-trigger': AltarCommentTrigger;
+    'altar-mode-button': AltarModeButton;
   }
 }

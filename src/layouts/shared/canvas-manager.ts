@@ -34,15 +34,15 @@ export class CanvasObjectManager extends LitElement {
     }
 
     updateCanvasSize() {
-        console.log(this.getBoundingClientRect())
         const { width, height } = this.getBoundingClientRect();
         this.canvas.width = width;
         this.canvas.height = height;
+
+        this.requestUpdate();
     }
 
     protected override update(changedProperties: PropertyValueMap<this>): void {
         super.update(changedProperties);
-
         this.renderObjects();
     }
 
@@ -51,16 +51,21 @@ export class CanvasObjectManager extends LitElement {
 
         const ctx = this.canvas.getContext('2d')!;
 
-        ctx.drawImage(this.centralObject, this.centralObject.width/2, this.centralObject.height/2);
+        const scaleFactor = Math.min(this.canvas.width / this.centralObject.width, this.canvas.height / this.centralObject.height);
+        const centerX = (this.canvas.width - this.centralObject.width * scaleFactor) / 2;
+        const centerY = (this.canvas.height - this.centralObject.height * scaleFactor) / 2;
+        ctx.drawImage(this.centralObject, centerX, centerY, this.centralObject.width * scaleFactor, this.centralObject.height * scaleFactor);
 
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "#64f6";
         this.objects?.forEach((obj) => {
-            ctx.ellipse(obj.x, obj.y, 20, 20, 0, 0, 2 * Math.PI);
+            ctx.beginPath();
+            ctx.ellipse(obj.x+centerX, obj.y+ centerY, 20/this.canvasController.zoom, 20/this.canvasController.zoom, 0, 0, 2 * Math.PI);
+            ctx.fill();
         });
     }
 
     override render() {
-        return html`<canvas></canvas>`;
+        return html`<canvas oncontextmenu="return false;"></canvas>`;
     }
 
     static override styles = css`

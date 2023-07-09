@@ -48,7 +48,6 @@ export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
     }
 
     togglePlay() {
-        console.log(this.element);
         if(this.isPlaying)this.element.pause();
         else this.element.play();
     }

@@ -42,7 +42,7 @@
   </head>
   <body>
     <div class="main-content">
-      <altar-element id="altarEl">
+      <altar-element id="altarEl" filePath="./files/canard.jpg">
       </altar-element>
     </div>
     <div class="comment-view">
@@ -57,6 +57,7 @@
         <p class="comment">${id}</p>
       </div>`
       const atlarEl = document.getElementById("altarEl");
+      atlarEl.comments = [{x:0,y:0, id: "hello", comment:"world"}, {x:50,y:50, id: "goodbye", comment:"world"}, {x:250,y:150, id: "goodbye", comment:"world"}]
       const commenSection = document.getElementById("comment-section");
       atlarEl.addEventListener("save-comment", (ev) => {
         console.log('s',ev)

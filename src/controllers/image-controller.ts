@@ -11,7 +11,7 @@ export class ImageController extends BaseController<AltarImageLayout> {
     super.hostUpdated();
     Array.from(this.host.controls).map(async _ => {
         _.centralObject = await this.host.element
-        _.objects = this.host.comments?.map(_ => _) ?? [{x:0,y:0}];
+        _.objects = this.host.comments?.map(_ => _) ?? [];
     });
   }
 }

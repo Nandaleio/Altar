@@ -1,8 +1,8 @@
 
 
 export enum AltarMode {
-    VIEW,
-    COMMENT,
-    DRAW,
-    POINT
+    VIEW = 'VIEW',
+    COMMENT = 'COMMENT',
+    DRAW = 'DRAW',
+    POINT = 'POINT'
 }

@@ -4,6 +4,7 @@ import { Comment } from './models/comments-models';
 import { AltarMode } from './models/atlar-mode';
 import { AltarConfig } from './altar-settings';
 import { AltarBaseLayout } from './layouts/altar-base-layout';
+import { AltarEvent } from './utils/events';
 
 @customElement('altar-layout')
 export class AltarLayout extends LitElement {
@@ -21,7 +22,14 @@ export class AltarLayout extends LitElement {
     mode: AltarMode = AltarMode.VIEW;
 
     @state()
-    layout!: AltarBaseLayout<any>;
+    layout!: AltarBaseLayout<any, any>;
+
+    override connectedCallback(): void {
+        super.connectedCallback();
+        this.addEventListener('toggle-mode', (ev: Event) => {
+            this.mode = (ev as AltarEvent<AltarMode>).detail ?? AltarMode.VIEW
+        })
+    }
 
     override updated(changedProperties: Map<string, unknown>) {
         super.updated(changedProperties);
