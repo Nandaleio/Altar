@@ -34,7 +34,7 @@ export class AltarImageLayout extends AltarBaseLayout<HTMLImageElement, Comment2
     override render() {
         return html`
         <img hidden id="altar-player-element" />
-        <altar-canvas-manager class="altar-control-element"></altar-canvas-manager>
+        <altar-canvas-manager class="altar-control-element" ></altar-canvas-manager>
         `;
     }
 

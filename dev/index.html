@@ -38,6 +38,7 @@
         width: 300px;
         margin-left: 1rem;
       }
+
       .comment {
         font-size: small;  
         color: gray;
@@ -59,6 +60,14 @@
         <option value="./files/flower.webm">video</option>
         <option value="./files/teapot.obj">3D !</option>
       </select>
+      
+      <select name="mode" id="modeSelect">
+        <option value="VIEW">VIEW</option>
+        <option value="COMMENT">COMMENT</option>
+        <option value="POINT">POINT</option>
+        <option value="DELETE">DELETE</option>
+        <option value="DRAW">DRAW</option>
+      </select>
     </div>
 
     <div class="demo">
@@ -75,24 +84,30 @@
     </div>
 
     <script>
+      
+      const atlarEl = document.getElementById("altarEl");
+      const fileSelect = document.getElementById("fileSelect");
+      const modeSelect = document.getElementById("modeSelect");
+      
+      const commenSection = document.getElementById("comment-section");
+
       const template = (comment, id) =>  `
       <div id="${id}" class="comm">
         ${comment}
         <p class="comment">${id}</p>
       </div>`;
+      
       const comments = [
         {x:0,y:0, time:0.25,      id: "1", comment:"Comment 1"}, 
         {x:-80,y:-150, time:0.50,  id: "2", comment:"Comment 2"}, 
         {x:250,y:150, time:0.75,  id: "3", comment:"Comment 3"}
       ]
-      const atlarEl = document.getElementById("altarEl");
-      const fileSelect = document.getElementById("fileSelect");
-      const commenSection = document.getElementById("comment-section");
-
-      atlarEl.comments = comments;
       comments.forEach(_ => {
         commenSection.innerHTML += template(_.comment, _.id);
       });
+
+
+      atlarEl.comments = comments;
       atlarEl.addEventListener("save-comment", (ev) => {
         console.log('s',ev)
         const c = ev.detail
@@ -117,7 +132,7 @@
           }, 3000);
         }
 
-        const eventsToListen = ['comment-added'];
+        const eventsToListen = ['comment-added', 'comment-deleted'];
 
         eventsToListen.forEach((eventName) => {
           element.addEventListener(eventName, logEvent);
@@ -130,7 +145,11 @@
       fileSelect.addEventListener('change', (event) => {
         console.log(event.target.value);
         atlarEl.filePath = event.target.value;
-        atlarEl.mode = "POINT";
+      });
+
+      modeSelect.addEventListener('change', (event) => {
+        console.log(event.target.value);
+        atlarEl.mode = event.target.value;
       });
 
     </script>

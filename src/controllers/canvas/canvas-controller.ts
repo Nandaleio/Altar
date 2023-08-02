@@ -1,8 +1,8 @@
 
 import { ReactiveController } from 'lit';
-import { CanvasObjectManager } from '../layouts/shared/canvas-manager';
-import { CanvasMode } from './canvas-modes/canvas-mode';
-import { ViewMode } from './canvas-modes/view-mode';
+import { CanvasObjectManager } from '../../layouts/shared/canvas-manager';
+import { CanvasMode } from '../canvas-modes/canvas-mode';
+import { ViewMode } from '../canvas-modes/view-mode';
 
 export class CanvasController implements ReactiveController {
 

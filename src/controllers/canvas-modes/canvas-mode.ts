@@ -1,4 +1,4 @@
-import { CanvasController } from "../canvas-controller";
+import { CanvasController } from "../canvas/canvas-controller";
 
 
 export abstract class CanvasMode {

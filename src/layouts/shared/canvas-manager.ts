@@ -1,11 +1,12 @@
 import { html, css, LitElement, PropertyValueMap } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { Comment2D } from '../../models/comments-models';
-import { CanvasController } from '../../controllers/canvas-controller';
+import { CanvasController } from '../../controllers/canvas/canvas-controller';
 import { AltarMode } from '../../models/atlar-mode';
 import { ViewMode } from '../../controllers/canvas-modes/view-mode';
 import { PointMode } from '../../controllers/canvas-modes/point-mode';
 import { DrawMode } from '../../controllers/canvas-modes/draw-mode';
+import { DeleteMode } from '../../controllers/canvas-modes/delete-mode';
 
 @customElement("altar-canvas-manager")
 export class CanvasObjectManager extends LitElement {
@@ -26,10 +27,14 @@ export class CanvasObjectManager extends LitElement {
         POINT: new PointMode(this.canvasController),
         COMMENT: new ViewMode(this.canvasController),
         DRAW: new DrawMode(this.canvasController),
+        DELETE: new DeleteMode(this.canvasController),
     }
     
+    private showComment: boolean = true;
+
     public setMode(mode: AltarMode) {
         this.canvasController.setMode(this.modeMap[mode])
+        this.showComment = mode !== 'VIEW';
     }
 
     override firstUpdated(_: PropertyValueMap<this>) {
@@ -76,11 +81,13 @@ export class CanvasObjectManager extends LitElement {
         ctx.drawImage(this.centralObject, centerX, centerY, this.centralObject.width * scaleFactor, this.centralObject.height * scaleFactor);
 
         ctx.fillStyle = "#64f6";
-        this.objects?.forEach((obj) => {
-            ctx.beginPath();
-            ctx.ellipse(obj.x*scaleFactor, obj.y*scaleFactor, 20/this.canvasController.zoom, 20/this.canvasController.zoom, 0, 0, 2 * Math.PI);
-            ctx.fill();
-        });
+        if(this. showComment) {
+            this.objects?.forEach((obj) => {
+                ctx.beginPath();
+                ctx.ellipse(obj.x*scaleFactor, obj.y*scaleFactor, 20/this.canvasController.zoom, 20/this.canvasController.zoom, 0, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
     }
 
     override render() {
