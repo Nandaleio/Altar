@@ -20,7 +20,7 @@ export class AltarModeButton extends LitElement {
     icon!: string;
 
     private toggleCommentMode() {
-        this.dispatchEvent(new AltarEvent('toggle-mode', this.currentMode))
+        this.dispatchEvent(new AltarEvent('toggle-mode', !this.isCurrentMode ? this.currentMode : AltarMode.COMMENT))
     }
 
     override render() { 

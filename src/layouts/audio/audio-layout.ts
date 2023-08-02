@@ -7,7 +7,6 @@ import '../../elements/controls/time-control';
 import '../../elements/controls/audio-control';
 import '../comments/altar-comment-trigger';
 import { TimeController } from "../../controllers/time-controller";
-import { AltarMode } from "../../models/atlar-mode";
 
 @customElement('altar-audio-layout')
 export class AltarAudioLayout extends AltarBaseLayout<HTMLAudioElement, TimeComment> {
@@ -18,7 +17,6 @@ export class AltarAudioLayout extends AltarBaseLayout<HTMLAudioElement, TimeComm
         return html`
         <audio id="altar-player-element"></audio>
         <div class="controls">
-            <altar-comment-trigger .isCommentMode="${this.mode === AltarMode.COMMENT}"></altar-comment-trigger>
             <altar-time-control class="altar-control-element"></altar-time-control>
         </div>
         `;

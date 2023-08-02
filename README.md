@@ -1,27 +1,42 @@
+
 # Altar
 
-Commenting tool for audio / image / video / 3d object
+Commenting tool for audio / image / video / 3D object
+
+
+## List of the Modes : 
+| Event name  | Description |
+| :------------- |:-------------|
+| `VIEW`   | View the media **without** the comment markers  |
+| `COMMENT`| View the media **with** the comment markers     |
+| `DELETE` | Delete comment on the media                     |
+| `DRAW`   | Draw a shap on 2D media `eg: image / video`     |
+| `POINT`  | Point a comment on media that is at least 1D `eg: audio / image / video`|
+
+_You **can** combine them_
+
+## List of the returned Events : 
+
+| Event name  | Description |
+| :------------- |:-------------:|
+| `comment-added`   | The user added a comment to the current media |
+| `comment-selected`| The user selected a comment                   |
+| `comment-delete`  | The user deleted a comment                    |
+| `comment-delete`  | The user deleted a comment                    |
+
 
 ## RoadMap :
-- [x] Timeline comment for audio
-- [ ] Image markers comment
+- [ ] Timeline comment for audio
+- [ ] Image comment
 - [ ] Timeline + Image comment for Video
-- [ ] WYSIWYG comment text editor
-- [ ] Custom style for comments (for now in the timeline & image markers)
 - [ ] Handle 3D Object
 
-## Custom theme
 
-Most of the style manage by the Material Design component see [how to customize](https://github.com/material-components/material-web/blob/main/docs/theming.md)
+## Customization :
+ Soon
 
-Here is the list of the css var you can change
-| Var name | Description | Default Value |
-| - | - | - |
-| --altar-timeline-comment-color | Timeline comment marker | `red` |
 
-## Depencies
-- [ThreeJS](https://threejs.org/)
-- [Material Design](https://github.com/material-components/material-web#readme)
-- [Floating UI](https://floating-ui.com/)
-- [Lit](https://lit.dev/)
+## Dependencies
 
+-   ThreeJS
+-   @material/web

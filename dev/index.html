@@ -11,7 +11,7 @@
         font-style: normal;
         src: url('./MaterialSymbolsRounded.woff2') format('woff');
       }
-      body {
+      .demo {
         display: flex;
         justify-content: center;
         font-family: Arial, sans-serif;
@@ -19,6 +19,13 @@
 
         --altar-timeline-comment-color: #eeff00;
         --md-sys-color-primary: #94a16e;
+      }
+
+      .file-selection-header {
+        height: 2rem;
+        display: flex;
+        justify-content: center;
+        margin: 0.5rem ;
       }
 
       .main-content{
@@ -38,27 +45,54 @@
       .comment-active {
         background-color: aqua;
       }
+      .comm{
+        border-bottom: 1px solid lightgray;
+        margin-bottom: 1rem;
+      }
     </style>
   </head>
   <body>
-    <div class="main-content">
-      <altar-element id="altarEl" filePath="./files/canard.jpg">
-      </altar-element>
+    <div class="file-selection-header">
+      <select name="fileSelect" id="fileSelect">
+        <option value="./files/canard.jpg">image</option>
+        <option value="./files/t-rex-roar.mp3">audio</option>
+        <option value="./files/flower.webm">video</option>
+        <option value="./files/teapot.obj">3D !</option>
+      </select>
     </div>
-    <div class="comment-view">
-      <h2>Comments :</h2>
-      <div id="comment-section"></div>
+
+    <div class="demo">
+      <div class="main-content">
+        <altar-element id="altarEl" filePath="./files/canard.jpg">
+        </altar-element>
+      </div>
+      <div class="comment-view">
+        <h2>Comments :</h2>
+        <div id="comment-section"></div>
+        <div id="logDiv"></div>
+      </div>
+
     </div>
 
     <script>
       const template = (comment, id) =>  `
-      <div id="${id}" >
+      <div id="${id}" class="comm">
         ${comment}
         <p class="comment">${id}</p>
-      </div>`
+      </div>`;
+      const comments = [
+        {x:0,y:0, time:0.25,      id: "1", comment:"Comment 1"}, 
+        {x:-80,y:-150, time:0.50,  id: "2", comment:"Comment 2"}, 
+        {x:250,y:150, time:0.75,  id: "3", comment:"Comment 3"}
+      ]
       const atlarEl = document.getElementById("altarEl");
-      atlarEl.comments = [{x:0,y:0, id: "hello", comment:"world"}, {x:50,y:50, id: "goodbye", comment:"world"}, {x:250,y:150, id: "goodbye", comment:"world"}]
+      const fileSelect = document.getElementById("fileSelect");
       const commenSection = document.getElementById("comment-section");
+
+      atlarEl.comments = comments;
+      comments.forEach(_ => {
+        commenSection.innerHTML += template(_.comment, _.id);
+      });
       atlarEl.addEventListener("save-comment", (ev) => {
         console.log('s',ev)
         const c = ev.detail
@@ -70,6 +104,35 @@
       atlarEl.addEventListener("select-comment", (ev) => {
         console.log('c',ev)
       })
+
+
+
+      function appendEventLog(element, logDiv) {
+        function logEvent(event) {
+          const logEntry = document.createElement("p");
+          logEntry.textContent = `Event: ${event.type} - ${JSON.stringify(event.detail)}`;
+          logDiv.appendChild(logEntry);
+          setTimeout(() => {
+            logDiv.removeChild(logEntry);
+          }, 3000);
+        }
+
+        const eventsToListen = ['comment-added'];
+
+        eventsToListen.forEach((eventName) => {
+          element.addEventListener(eventName, logEvent);
+        });
+      }
+
+      const logDiv = document.getElementById("logDiv");
+      appendEventLog(atlarEl, logDiv);
+
+      fileSelect.addEventListener('change', (event) => {
+        console.log(event.target.value);
+        atlarEl.filePath = event.target.value;
+        atlarEl.mode = "POINT";
+      });
+
     </script>
   </body>
 </html>

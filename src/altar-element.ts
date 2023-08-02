@@ -1,36 +1,44 @@
-import {LitElement, PropertyValueMap, css, html} from 'lit';
-import {customElement, property, query} from 'lit/decorators.js';
+import {LitElement, css, html, nothing} from 'lit';
+import {customElement, property, state} from 'lit/decorators.js';
 
-import { AltarCommentEditor } from './layouts/comments/altar-comment-editor';
-import { AltarEvent } from './utils/events';
-
-import './layouts/altar-file-selector';
-import './layouts/comments/altar-comment-editor';
-import './altar-layout';
-
+import { AltarBaseLayout } from './layouts/altar-base-layout';
+import { AltarConfig } from './altar-settings';
+import { AltarMode } from './models/atlar-mode';
 
 @customElement('altar-element')
 export class AltarElement extends LitElement {
 
+    // Should focus on :
+    // - DISPLAYING media
     @property({type: String})
     filePath!: string; 
     @property({type: Object})
     file!: File;
-
-    @property({type: Array})
-    comments!: Comment[];
+    
+    // - DISPLAYING comments
+    @property({type: Boolean})
+    showComments: boolean = true;
+    
+    // - SELECTING comment
     @property({type: Object})
     selectedComment!: Comment;
 
-    @property({type: Boolean})
-    showComments: boolean = true;
+    // - DISPATCH add & remove comments
+    @property({type: Array})
+    comments!: Comment[];
 
-    @query("altar-comment-editor")
-    commentEditor!: AltarCommentEditor;
+    // - MANAGE the modes
+    @property({type: String})
+    mode!: AltarMode;
 
-    protected override firstUpdated(changedProperties: PropertyValueMap<this>): void {
-        super.firstUpdated(changedProperties);
-        if(this.filePath) {
+    @state()
+    layout!: AltarBaseLayout<any, any>;
+
+    override updated(changedProperties: Map<string, unknown>) {
+        super.updated(changedProperties);
+
+        const filePathChanged = (changedProperties.has("filePath") && !!this.filePath);
+        if(filePathChanged) {
             fetch(this.filePath)
             .then(async (res) => { 
                 return {
@@ -45,13 +53,24 @@ export class AltarElement extends LitElement {
             })
             .catch((e) => console.error(e));
         }
+
+        const fileChanged = (changedProperties.has("file") && !!this.file);
+        if (fileChanged) {
+            this.layout = AltarConfig.getLayout(this.file.type);
+            this.layout.file = this.file;
+            this.layout.comments = this.comments;
+            this.layout.selectedComment = this.selectedComment;
+        }
+
+        const modeChanged = (changedProperties.has("mode") && !!this.mode);
+        if(modeChanged && !!this.layout){
+            this.layout.mode = this.mode;
+        }
+
     }
 
     override render() {
-       return html` ${this.file 
-        ?  html`<altar-layout .file="${this.file}" .comments="${this.comments}"></altar-layout>` 
-        : html `<altar-file-selector @file-selected="${(ev: AltarEvent) => this.file = ev.detail}"></altar-file-selector>`}
-        <altar-comment-editor></altar-comment-editor>`;
+       return html`${this.file ? html`${this.layout}` : nothing}`;
     }
 
     static override styles = css`

@@ -1,8 +1,9 @@
 import { LitElement } from "lit";
 import { property, queryAll, queryAsync } from "lit/decorators.js";
 import { AltarMode } from "../models/atlar-mode";
+import { Comment } from "../models/comments-models";
 
-export abstract class AltarBaseLayout<E,T> extends LitElement {
+export abstract class AltarBaseLayout<E,T extends Comment> extends LitElement {
 
     @property({type: Object})
     file!: File;
@@ -21,5 +22,4 @@ export abstract class AltarBaseLayout<E,T> extends LitElement {
     
     @queryAsync('#altar-player-element')
     element!: E;
-
 }

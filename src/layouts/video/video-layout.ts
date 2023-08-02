@@ -3,15 +3,14 @@ import { customElement } from "lit/decorators.js";
 import { Comment2D } from "../../models/comments-models";
 import { AltarBaseLayout } from "../altar-base-layout";
 
-import { ImageController } from "../../controllers/image-controller";
-
 import "../shared/canvas-manager";
 import '../comments/altar-comment-trigger';
 import { CanvasObjectManager } from "../shared/canvas-manager";
-@customElement('altar-image-layout')
-export class AltarImageLayout extends AltarBaseLayout<HTMLImageElement, Comment2D> {
+import { VideoController } from "../../controllers/video-controller";
+@customElement('altar-video-layout')
+export class AltarVideoLayout extends AltarBaseLayout<HTMLImageElement, Comment2D> {
 
-    imageController = new ImageController(this);
+    videoController = new VideoController(this);
 
     override connectedCallback(): void {
         super.connectedCallback();
@@ -33,8 +32,9 @@ export class AltarImageLayout extends AltarBaseLayout<HTMLImageElement, Comment2
 
     override render() {
         return html`
-        <img hidden id="altar-player-element" />
+        <video hidden id="altar-player-element" ></video>
         <altar-canvas-manager class="altar-control-element"></altar-canvas-manager>
+        <altar-audio-layout file="${this.file}" comments=${this.comments} selectedComment="${this.selectedComment}"></altar-audio-layout>
         `;
     }
 
@@ -50,6 +50,6 @@ export class AltarImageLayout extends AltarBaseLayout<HTMLImageElement, Comment2
 
 declare global {
   interface HTMLElementTagNameMap {
-    'altar-image-layout': AltarImageLayout;
+    'altar-video-layout': AltarVideoLayout;
   }
 }

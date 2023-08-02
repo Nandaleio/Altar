@@ -1,6 +1,7 @@
 import { AltarBaseLayout } from "./layouts/altar-base-layout";
 import { AltarAudioLayout } from "./layouts/audio/audio-layout";
 import { AltarImageLayout } from "./layouts/image/image-layout";
+import { AltarVideoLayout } from "./layouts/video/video-layout";
 
 const defaultSettings: AltarSettings[] = [
     {
@@ -18,8 +19,7 @@ const defaultSettings: AltarSettings[] = [
     {
         types: ["video/mp4","video/webm","video/x-m4v","video/quicktime","video/ogg"],
         element: () => {
-            //return new VideoEditor();
-            return new AltarAudioLayout();;
+            return new AltarVideoLayout();
         }
     },
 ]

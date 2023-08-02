@@ -11,7 +11,7 @@ import { AltarEvent } from "../../utils/events";
 import { TimeComment } from "../../models/comments-models";
 
 @customElement('altar-time-control')
-export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
+export class TimeControl extends AltarControl<HTMLMediaElement> {
 
     @state()
     isPlaying: boolean = false;
@@ -23,14 +23,6 @@ export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
     comments: TimeComment[] = [];
 
     private lastCommentEmitted: any;
-
-    public override getControlInfo() {
-        return {
-            id: "",
-            comment: "",
-            time: this.element.currentTime / this.element.duration
-        }
-    }
 
     protected setEventListeners(el: HTMLMediaElement): void {
         el.addEventListener('timeupdate', () => {
@@ -84,7 +76,7 @@ export class TimeControl extends AltarControl<HTMLMediaElement, TimeComment> {
             <md-icon>${this.isPlaying ? 'pause' : 'play_arrow'}</md-icon>
         </md-standard-icon-button>
 
-        ${formatTime(this.element.currentTime)} / ${formatTime(this.element.duration)}
+        ${formatTime(this.element?.currentTime)} / ${formatTime(this.element?.duration)}
 
         <altar-timeline 
         .comments=${this.comments} 

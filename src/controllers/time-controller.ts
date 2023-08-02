@@ -11,6 +11,7 @@ export class TimeController extends BaseController<AltarAudioLayout> {
     super.hostUpdated();
     Array.from(this.host.controls).map(_ => {
         _.commentsPosition = this.host.comments?.map(_ => _.time*100);
+        console.log(_.commentsPosition)
     });
   }
 }

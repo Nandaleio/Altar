@@ -1,26 +1,35 @@
 
 import { ReactiveController } from 'lit';
 import { CanvasObjectManager } from '../layouts/shared/canvas-manager';
+import { CanvasMode } from './canvas-modes/canvas-mode';
+import { ViewMode } from './canvas-modes/view-mode';
 
 export class CanvasController implements ReactiveController {
 
-    private host: CanvasObjectManager;
+    host: CanvasObjectManager;
 
-    private canvas!: HTMLCanvasElement;
+    canvas!: HTMLCanvasElement;
     private ctx!: CanvasRenderingContext2D;
-    private isDragging = false;
-    private rotateEnabled = false;
-    private panPos = { x: 0, y: 0 };
-    public zoom = 1;
-    private rotationAngle = 0;
 
+    isDragging = false;
+    rotateEnabled = false;
+    panPos = { x: 0, y: 0 };
+    zoom = 1;
+    rotationAngle = 0;
 
-    constructor(host: CanvasObjectManager) {
+    private mode: CanvasMode;
+
+    setMode(newMode: CanvasMode) {
+        this.mode = newMode;
+    }
+
+    constructor(host: CanvasObjectManager, mode?: CanvasMode) {
         (this.host = host).addController(this);
+        this.mode = mode ?? new ViewMode(this);
 
         this.host.updateComplete.then(() => {
             this.init();
-        })
+        });
     }
 
     init(){
@@ -33,7 +42,6 @@ export class CanvasController implements ReactiveController {
         this.canvas.addEventListener('mousemove', this.handleMouseMove);
         this.canvas.addEventListener('wheel', this.handleMouseWheel);
     }
-
     
     resetView() {
         this.panPos = {x:0, y:0}
@@ -62,9 +70,6 @@ export class CanvasController implements ReactiveController {
         this.ctx.translate(this.canvas.width / 2, this.canvas.height / 2);
         this.ctx.rotate(this.rotationAngle);
         this.ctx.translate(-this.canvas.width / 2, -this.canvas.height / 2);
-
-
-        
     }
 
     hostDisconnected(){
@@ -77,35 +82,24 @@ export class CanvasController implements ReactiveController {
     handleMouseDown = (event: MouseEvent) => {
         this.isDragging = event.button === 0;
         this.rotateEnabled = event.button === 2;
+        this.mode?.handleMouseDown(event);
     };
 
-    handleMouseUp = () => {
+    handleMouseUp = (event: MouseEvent) => {
         this.isDragging = false;
         this.rotateEnabled = false;
+        this.mode?.handleMouseUp(event);
     };
 
     handleMouseMove = (event: MouseEvent) => {
-        if (this.isDragging) {
-            this.panPos.x += event.movementX;
-            this.panPos.y += event.movementY;
-        } 
-        else if (this.rotateEnabled) {
-            const dx = event.movementX;
-            const dy = event.movementY;
-            const angleDelta = (dx + dy) * 0.005;
-            this.rotationAngle += angleDelta;
-        }
-        
+        this.mode?.handleMouseMove(event)
         this.host.requestUpdate();
     };
 
     handleMouseWheel = (event: WheelEvent) => {
-        event.preventDefault();
-        const scaleFactor = event.deltaY > 0 ? 0.9 : 1.1;
-        this.zoom = Math.min(Math.max(this.zoom * scaleFactor, 0.1),10);
-      
+        this.mode?.handleMouseWheel(event);
         this.host.requestUpdate();
-      }
+    }
 
 }
 
