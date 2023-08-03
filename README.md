@@ -35,15 +35,15 @@ Commenting tool for audio / image / video / 3D object
 | `reset-view`  | Reset the view         |  - |
 
 #### Comment position {#comment-position}
-    - Audio: ``` {time: number} ```
-    - Image: ``` {x: number, y: number} ```
-    - Video: ``` {x: number, y: number, time: number} ```
-    - 3D : _Coming soon_
+- Audio: ``` {time: number} ```
+- Image: ``` {x: number, y: number} ```
+- Video: ``` {x: number, y: number, time: number} ```
+- 3D : _Coming soon_
 #### View {#view-detail}
-    - Audio: ``` {time: number} ```
-    - Image: ``` {x: number, y: number, rotation: number, zoom: number} ```
-    - Video: ``` {x: number, y: number, rotation: number, zoom: number, time: number} ```
-    - 3D : _Coming soon_
+- Audio: ``` {time: number} ```
+- Image: ``` {x: number, y: number, rotation: number, zoom: number} ```
+- Video: ``` {x: number, y: number, rotation: number, zoom: number, time: number} ```
+- 3D : _Coming soon_
 
 ## Customization :
  Coming soon
@@ -51,5 +51,5 @@ Commenting tool for audio / image / video / 3D object
 
 ## Dependencies
 
--   ThreeJS
--   @material/web _(might change)_
+- ThreeJS
+- @material/web _(might change)_
