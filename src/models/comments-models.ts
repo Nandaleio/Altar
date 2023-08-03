@@ -1,6 +1,6 @@
 export interface Comment {
     id: string;
-    comment: string;
+    label: string;
 } 
 export interface Comment2D extends Comment {
     x: number;

@@ -98,9 +98,9 @@
       </div>`;
       
       const comments = [
-        {x:0,y:0, time:0.25,      id: "1", comment:"Comment 1"}, 
-        {x:-80,y:-150, time:0.50,  id: "2", comment:"Comment 2"}, 
-        {x:250,y:150, time:0.75,  id: "3", comment:"Comment 3"}
+        {x:0,y:0, time:0.25,      id: "1", label:"1", comment: "Hello World"}, 
+        {x:-80,y:-150, time:0.50,  id: "2", label:"2", comment: "This is ALTAR"}, 
+        {x:250,y:150, time:0.75,  id: "3", label:"3", comment: "idk what to do"}
       ]
       comments.forEach(_ => {
         commenSection.innerHTML += template(_.comment, _.id);
@@ -108,17 +108,7 @@
 
 
       atlarEl.comments = comments;
-      atlarEl.addEventListener("save-comment", (ev) => {
-        console.log('s',ev)
-        const c = ev.detail
-        commenSection.append(template(c.comment, c.id))
-      })
-      atlarEl.addEventListener("remove-comment", (ev) => {
-        console.log('r',ev)
-      })
-      atlarEl.addEventListener("select-comment", (ev) => {
-        console.log('c',ev)
-      })
+      atlarEl.mode = "VIEW";
 
 
 

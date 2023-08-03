@@ -15,15 +15,11 @@ export class AltarElement extends LitElement {
     @property({type: Object})
     file!: File;
     
-    // - DISPLAYING comments
-    @property({type: Boolean})
-    showComments: boolean = true;
-    
     // - SELECTING comment
     @property({type: Object})
     selectedComment!: Comment;
 
-    // - DISPATCH add & remove comments
+    // - ADD & REMOVE comments
     @property({type: Array})
     comments!: Comment[];
 
@@ -32,7 +28,7 @@ export class AltarElement extends LitElement {
     mode!: AltarMode;
 
     @state()
-    layout!: AltarBaseLayout<any, any>;
+    private layout!: AltarBaseLayout<any, any>;
 
     override updated(changedProperties: Map<string, unknown>) {
         super.updated(changedProperties);
@@ -62,12 +58,10 @@ export class AltarElement extends LitElement {
             this.layout.selectedComment = this.selectedComment;
         }
 
-        const modeChanged = (changedProperties.has("mode") && !!this.mode);
-        if(modeChanged && !!this.layout){
-            this.layout.mode = this.mode;
-        }
-
+        if(!this.layout) return;
+        this.layout.mode = this.mode;
     }
+
 
     override render() {
        return html`${this.file ? html`${this.layout}` : nothing}`;

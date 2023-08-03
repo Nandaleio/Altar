@@ -80,12 +80,19 @@ export class CanvasObjectManager extends LitElement {
 
         ctx.drawImage(this.centralObject, centerX, centerY, this.centralObject.width * scaleFactor, this.centralObject.height * scaleFactor);
 
-        ctx.fillStyle = "#64f6";
         if(this. showComment) {
+            ctx.textBaseline = 'middle'; 
+            ctx.textAlign = 'center';
             this.objects?.forEach((obj) => {
+                ctx.fillStyle = "#64f6";
                 ctx.beginPath();
-                ctx.ellipse(obj.x*scaleFactor, obj.y*scaleFactor, 20/this.canvasController.zoom, 20/this.canvasController.zoom, 0, 0, 2 * Math.PI);
+                ctx.arc(obj.x*scaleFactor, obj.y*scaleFactor, 20/this.canvasController.zoom, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.closePath();
+
+                ctx.fillStyle ='#fffa';
+                ctx.font = `${18/this.canvasController.zoom}px Arial`;
+                ctx.fillText(obj.label, obj.x*scaleFactor, obj.y*scaleFactor); 
             });
         }
     }

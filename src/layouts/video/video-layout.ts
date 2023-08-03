@@ -1,16 +1,18 @@
 import { html, css, PropertyValueMap } from "lit";
 import { customElement } from "lit/decorators.js";
-import { Comment2D } from "../../models/comments-models";
+import { VideoComment } from "../../models/comments-models";
 import { AltarBaseLayout } from "../altar-base-layout";
 
 import "../shared/canvas-manager";
 import '../comments/altar-comment-trigger';
 import { CanvasObjectManager } from "../shared/canvas-manager";
 import { VideoController } from "../../controllers/video-controller";
+import { TimeController } from "../../controllers/time-controller";
 @customElement('altar-video-layout')
-export class AltarVideoLayout extends AltarBaseLayout<HTMLImageElement, Comment2D> {
+export class AltarVideoLayout extends AltarBaseLayout<HTMLVideoElement, VideoComment> {
 
     videoController = new VideoController(this);
+    timeController = new TimeController(this);
 
     override connectedCallback(): void {
         super.connectedCallback();

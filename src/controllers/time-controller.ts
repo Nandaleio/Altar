@@ -1,9 +1,9 @@
-import { AltarAudioLayout } from '../layouts/audio/audio-layout';
+import { AltarBaseLayout } from '../layouts/altar-base-layout';
 import { BaseController } from './base-controller';
 
-export class TimeController extends BaseController<AltarAudioLayout> {
+export class TimeController extends BaseController<AltarBaseLayout<HTMLMediaElement, any>> {
 
-  constructor(host: AltarAudioLayout) {
+  constructor(host: AltarBaseLayout<HTMLMediaElement, any>) {
     super(host);
   }
 
