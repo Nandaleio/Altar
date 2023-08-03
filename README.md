@@ -32,6 +32,7 @@ Commenting tool for audio / image / video / 3D object
 | `media-play`    | The media start playing       | Media time before start |
 | `media-stop`    | The media stop playing        | Media time at pause |
 | `view-changed`  | The media view changed        |  [View details](#view-detail) |
+| `reset-view`  | Reset the view         |  - |
 
 #### Comment position {#comment-position}
     - Audio: ``` {time: number} ```
@@ -42,6 +43,7 @@ Commenting tool for audio / image / video / 3D object
     - Audio: ``` {time: number} ```
     - Image: ``` {x: number, y: number, rotation: number, zoom: number} ```
     - Video: ``` {x: number, y: number, rotation: number, zoom: number, time: number} ```
+    - 3D : _Coming soon_
 
 ## Customization :
  Coming soon
